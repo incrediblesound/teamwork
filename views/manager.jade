@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  div.container
+    h1.text-center Manager Home
+    p.text-center Welcome #{user.name}
+    div.row
+      div.col-md-4
+        h2 Control Center
+        a(href='/makegroup' class='btn btn-default btn-lg') Make Group
+        hr
+        form(method='post' action='/newmission')
+          div.form-group
+            input.form-control(name='name' placeholder='Mission Name')
+          input(type='submit' class='btn btn-danger' value='New Mission')
+      div.col-md-6
+        div.row
+          h2 groups
+          hr
+          - each group in groups
+            div.group
+              p <strong>#{group.name}</strong> 
+                a.pull-right(href='/updategroup/#{group.id}' class='btn btn-warning') Add Member
+              form(method='POST' action='/msghead')
+                input(type='submit' class='btn btn-default' value='Message Head')
+                div.form-group
+                  input(name='message' class='form-control' placeholder='Message to Group Head')
+                input(type='hidden' name='id' value='#{group.id}')
+        div.row
+          h2 Missions
+          hr
+          - each mission in missions
+            p #{mission.name}: 
+              a(href='/viewmission/#{mission.name}' class='btn btn-default') View 
+              a(href='/updatemission/#{mission.name}' class='btn btn-warning') Add Group

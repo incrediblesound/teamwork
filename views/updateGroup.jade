@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  div.container
+    h1 Update Group: #{group}
+    a(href='/managers' class='btn btn-info') Home
+    div.row
+      div.col-md-6
+        h2 Current Members
+        - each member in members
+          p.lead= member.name
+      div.col-md-6
+        h2 Non Members
+        - each outsider in outsiders
+          a(href='/addtogroup/#{outsider.id}' class='btn btn-default')= outsider.name

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div.container
+    div.row
+      h1.text-center #{mission}
+      div.col-md-6
+        a(href='/members' class='btn btn-info') Home
+        h2 Tasks:
+        ul
+          - each task in list
+            li= task

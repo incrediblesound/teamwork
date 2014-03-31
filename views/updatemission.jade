@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  div.container
+    h1.text-center Update Mission: #{mission}
+    a(href='/managers' class='btn btn-info') Home
+    div.row
+      div.col-md-6
+        h2 In Mission Groups
+        - each inner in inside
+          p.lead= inner.name
+      div.col-md-6
+        h2 Add to Mission
+        - each outer in outside
+          a(href='/addtomission/#{outer.id}' class='btn btn-default')= outer.name
+

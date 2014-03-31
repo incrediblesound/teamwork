@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  div.container
+    div.row
+      h1.text-center View #{mission} Tasks
+      div.col-md-6
+        a(href='/managers' class='btn btn-info') Home
+        - each cluster in data
+          p.lead #{cluster.name} Tasks
+          ul
+            - each item in cluster.list
+              li= item
+          form(method='POST' action='/addtask')
+            div.form-group
+              input.form-control(name='task' placeholder='Task Description')
+            input(type='hidden' name='group' value='#{cluster.id}')
+            input(type='submit' class='btn btn-default btn-sm' value='Add Task')
