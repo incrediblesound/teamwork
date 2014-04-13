@@ -15,16 +15,16 @@ block content
           input(type='submit' class='btn btn-danger' value='New Mission')
       div.col-md-6
         div.row
-          h2 groups
+          h2 Groups
           hr
           - each group in groups
             div.group
               p <strong>#{group.name}</strong> 
                 a.pull-right(href='/updategroup/#{group.id}' class='btn btn-warning') Add Member
               form(method='POST' action='/msghead')
-                input(type='submit' class='btn btn-default' value='Message Head')
+                input(type='submit' class='btn btn-default' value='Send Message')
                 div.form-group
-                  input(name='message' class='form-control' placeholder='Message to Group Head')
+                  input(name='message' class='form-control' placeholder='Message to Head of #{group.name}')
                 input(type='hidden' name='id' value='#{group.id}')
         div.row
           h2 Missions

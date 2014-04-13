@@ -34,9 +34,9 @@ exports.login = function(req, res) {
 	});
 };
 
-exports.members = function (req, res) {
+exports.members = function (req, res) { //home page for members
   var params = {id: req.session.user.id};
-  db.query('MATCH n-[r]->(g:Group)\nWHERE id(n)= ({id})\nRETURN r, g', params, function (err, data) {
+  db.query('MATCH n-[r]->(g:Group)\nWHERE id(n)= ({id})\nRETURN r, g', params, function (err, data) { //find our members groups and missions
     if(err) {console.log(err);}
     db.query('MATCH n-[]->(:Group)-[:ASSIGNED]->(m:Mission)\nWHERE id(n)= ({id})\nRETURN m',params, function (err, m) {
       var missions = [];
@@ -66,8 +66,8 @@ exports.members = function (req, res) {
   })
 };
 
-exports.managers = function (req, res) {
-  db.query('MATCH (n:Group)\nRETURN n', function (err, n) {
+exports.managers = function (req, res) { //home page for managers
+  db.query('MATCH (n:Group)\nRETURN n', function (err, n) { // currently no support for multiple managers so this returns all groups and missions
     db.query('MATCH (n:Mission)\nRETURN n', function (err, m) {
       var groups = [];
       forEach(n, function(group) {
@@ -248,7 +248,14 @@ exports.addtask = function(req, res) {
 };
 
 exports.messageHead = function(req, res) {
-  //TODO messaging system
+  var msg = req.body.message;
+  var params = {id: parseInt(req.body.id), user: parseInt(req.session.user.id), msg: msg};
+  db.query('MATCH (g:Group)<-[:HEAD_OF]-(n:Member), (m:Manager)\nWHERE id(g)= ({id}) AND id(m)= ({user})\nCREATE (m)-[:SENT]->(d:Message {message:({msg})})-[:RECEIVE]->(n)\nRETURN d', 
+    params, function (err, data) {
+      if(err) {console.log(err);}
+      console.log(data);
+      res.redirect('/managers');
+    })
 }
 
 var forEach = function(array, fn) {
